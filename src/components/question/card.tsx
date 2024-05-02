@@ -1,6 +1,7 @@
 import {
     EyeIcon,
     EyeSlashIcon,
+    ListBulletIcon,
     PencilSquareIcon,
     TrashIcon,
   } from "@heroicons/react/24/solid";
@@ -12,6 +13,9 @@ import {
   import DeleteButton from "../delete";
   
   import Image from "next/image";
+import { EditQuestionDialog } from "./edit";
+import { deleteQuestion } from "@/service/rrhh/jobs/question/service";
+import { Tooltip } from "@material-tailwind/react";
   
   export default function Card({
     question,
@@ -34,24 +38,29 @@ import {
     };
   
     const handleDelete = () => {
-    //   if (user && !isLoading) {
-    //     deleteMember(
-    //       member.id as string,
-    //       handleDeleteOpen,
-    //       update,
-    //       user.sub as string
-    //     );
-    //   }
+      //if (user && !isLoading) {
+        deleteQuestion(
+          question.id as string,
+          handleDeleteOpen,
+          update
+        );
+      //}
     };
     return (
       <>
-        <div className="grid items-center w-full h-24 grid-cols-2 lg:grid-cols-5 p-5 text-center bg-white rounded-lg  ring-2 ring-gray-100">
-          <div>{question?.name}</div>
-          <div>{question?.type}</div>
+        <div className="grid items-center m-1 w-full py-4 grid-cols-2 lg:grid-cols-3 text-center bg-white rounded-lg  ring-2 ring-gray-100">
+          <div className="line-clamp-1"><Tooltip content={question?.question}>{question?.question}</Tooltip></div>
+          <div>{question?.type === "text" ? "Texto" : question?.type === "select" && "Opción múltiple"}</div>
           <div className="flex justify-center space-x-5 ">
+          {question?.type === "select" && (<button
+              onClick={handleEditOpen}
+              className="flex items-center justify-center text-black hover:text-white hover:bg-green-600 duration-300 bg-white rounded-lg w-14 h-14 ring-1 ring-gray-100"
+            >
+              <ListBulletIcon className="w-7" />
+            </button>)}
             <button
               onClick={handleEditOpen}
-              className="flex items-center justify-center text-black hover:text-white hover:bg-blue-dark duration-300 bg-white rounded-lg w-14 h-14 ring-1 ring-gray-100"
+              className="flex items-center justify-center text-black hover:text-white hover:bg-blue-900 duration-300 bg-white rounded-lg w-14 h-14 ring-1 ring-gray-100"
             >
               <PencilSquareIcon className="w-7" />
             </button>
@@ -63,20 +72,21 @@ import {
             </button>
           </div>
         </div>
-        {/* {editOpen && (
-          <MembersEditDialog
-            id={member?.id}
+        {editOpen && (
+          <EditQuestionDialog
+            questions={question}
             open={editOpen}
             handler={handleEditOpen}
             update={update}
           />
-        )} */}
+        )}
   
         {deleted && (
           <DeleteButton
             open={deleted}
-            title="Eliminar Colaborador"
-            message="¿Estás seguro de que deseas eliminar este colaborador? Esta acción no se puede deshacer."
+            value={question?.question}
+            title="Eliminar Pregunta"
+            message="¿Estás seguro de que deseas eliminar esta pregunta? Esta acción no se puede deshacer. Además, si esta pregunta tiene opciones, estas también serán eliminadas."
             handleOpen={handleDeleteOpen}
             funct={handleDelete}
           />

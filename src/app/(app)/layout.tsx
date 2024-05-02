@@ -9,9 +9,13 @@ const queryClient = new QueryClient()
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
+      
         <div className='flex flex-col items-center w-full bg-white divide-y-2'>
         <Navbar />
-        <div className='flex flex-row w-full lg:w-10/12 divide-x-2'><Sidebar />{children}</div>
+        <div className='flex flex-row w-full lg:w-10/12 divide-x-2'>
+          <Sidebar />
+        <div className='min-h-[85vh] overflow-y-auto w-full'>{children}</div>
+        </div>
         </div>
         
         </QueryClientProvider>

@@ -20,7 +20,7 @@ export default function Sketch({
   return (
     <>
       <div className="w-full min-h-[85vh] space-y-8 flex flex-col items-center p-8">
-        <div className="w-11/12 h-24 flex justify-between items-center text-black">
+        <div className="w-full py-2 flex justify-between items-center text-black">
           <div className="flex flex-col w-full">
             <div className="font-extrabold text-4xl line-clamp-1">{title}</div>
             {subtitle && (
