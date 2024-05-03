@@ -1,6 +1,4 @@
 import {
-    EyeIcon,
-    EyeSlashIcon,
     ListBulletIcon,
     PencilSquareIcon,
     TrashIcon,
@@ -8,21 +6,20 @@ import {
   import React, { useState } from "react";
   
   import { useUser } from "@auth0/nextjs-auth0/client";
-  import DeactiveButton from "../inactive";
-  import ActivateButton from "../active";
-  import DeleteButton from "../delete";
-  
-  import Image from "next/image";
-import { EditQuestionDialog } from "./edit";
+  import DeleteButton from "../../delete";
 import { deleteQuestion } from "@/service/rrhh/jobs/question/service";
 import { Tooltip } from "@material-tailwind/react";
 import Link from "next/link";
+import { EditQuestionOptionDialog } from "./edit";
+import { deleteQuestionOption } from "@/service/rrhh/jobs/question-option/service";
   
   export default function Card({
     question,
+    option,
     update,
   }: {
     question: any;
+    option: any;
     update: () => void;
   }) {
     const { user, isLoading } = useUser();
@@ -40,8 +37,8 @@ import Link from "next/link";
   
     const handleDelete = () => {
       //if (user && !isLoading) {
-        deleteQuestion(
-          question.id as string,
+        deleteQuestionOption(
+          option.id as string,
           handleDeleteOpen,
           update
         );
@@ -49,15 +46,9 @@ import Link from "next/link";
     };
     return (
       <>
-        <div className="grid items-center m-1 w-full py-4 grid-cols-2 lg:grid-cols-3 text-center bg-white rounded-lg  ring-2 ring-gray-100">
-          <div className="line-clamp-1"><Tooltip content={question?.question}>{question?.question}</Tooltip></div>
-          <div>{question?.type === "text" ? "Texto" : question?.type === "select" && "Opción múltiple"}</div>
+        <div className="grid items-center m-1 w-full py-4 grid-cols-2  text-center bg-white rounded-lg  ring-2 ring-gray-100">
+          <div className="line-clamp-1"><Tooltip content={option?.option}>{option?.option}</Tooltip></div>
           <div className="flex justify-center space-x-5 ">
-          {question?.type === "select" && (
-          <Link href={`/question/${question.id}`} className="flex items-center justify-center text-black hover:text-white hover:bg-green-600 duration-300 bg-white rounded-lg w-14 h-14 ring-1 ring-gray-100"
-            >
-              <ListBulletIcon className="w-7" />
-            </Link>)}
             <button
               onClick={handleEditOpen}
               className="flex items-center justify-center text-black hover:text-white hover:bg-blue-900 duration-300 bg-white rounded-lg w-14 h-14 ring-1 ring-gray-100"
@@ -73,8 +64,9 @@ import Link from "next/link";
           </div>
         </div>
         {editOpen && (
-          <EditQuestionDialog
-            questions={question}
+          <EditQuestionOptionDialog
+            question={question}
+            option={option}
             open={editOpen}
             handler={handleEditOpen}
             update={update}
@@ -84,9 +76,9 @@ import Link from "next/link";
         {deleted && (
           <DeleteButton
             open={deleted}
-            value={question?.question}
-            title="Eliminar Pregunta"
-            message="¿Estás seguro de que deseas eliminar esta pregunta? Esta acción no se puede deshacer. Además, si esta pregunta tiene opciones, estas también serán eliminadas."
+            value={option?.option}
+            title="Eliminar Opción"
+            message="¿Estás seguro de que deseas eliminar esta opción? Asegúrate que no sea la respuesta correcta, ya que esta acción no se puede revertir."
             handleOpen={handleDeleteOpen}
             funct={handleDelete}
           />

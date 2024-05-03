@@ -1,6 +1,9 @@
 "use client";
 
 import React from "react";
+import { Breadcrumbs } from "@material-tailwind/react";
+import Link from "next/link";
+import { HomeIcon } from "@heroicons/react/24/solid";
 
 export default function Sketch({
   title,
@@ -9,6 +12,7 @@ export default function Sketch({
   children,
   buttons,
   hasFilter = true,
+  breadcrumbs,
 }: {
   title: string;
   subtitle?: string;
@@ -16,10 +20,37 @@ export default function Sketch({
   children: React.ReactNode;
   buttons: { name: string; onClick: () => void }[];
   hasFilter?: boolean;
+  breadcrumbs?: { name: string; href?: string }[];
 }) {
   return (
     <>
-      <div className="w-full min-h-[85vh] space-y-8 flex flex-col items-center p-8">
+      <div className="w-full min-h-[85vh] space-y-4 flex flex-col items-center p-8">
+      {breadcrumbs && (
+        <div className="w-full">
+        <Breadcrumbs onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} placeholder={undefined}>
+        <Link href="/" className="opacity-60 hover:text-black">
+          <HomeIcon className="size-4 hover:text-black" />
+        </Link>
+        {breadcrumbs?.map((breadcrumb, key) => (
+          <div key={key}>
+            {key === breadcrumbs.length - 1 ? (
+              <span className="text-black">{breadcrumb.name}</span>
+            ) : (
+             <>
+              {breadcrumb.href ? (
+                <Link href={breadcrumb.href} className="opacity-60 hover:text-black">
+                  {breadcrumb.name}
+                </Link>
+              ) : (
+                <span className="text-black opacity-60">{breadcrumb.name}</span>
+              )}
+             </>
+            )}
+          </div>
+        ))}
+      </Breadcrumbs>
+      </div>
+      )}
         <div className="w-full py-2 flex justify-between items-center text-black">
           <div className="flex flex-col w-full">
             <div className="font-extrabold text-4xl line-clamp-1">{title}</div>

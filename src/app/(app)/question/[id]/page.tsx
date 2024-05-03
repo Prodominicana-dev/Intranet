@@ -1,25 +1,27 @@
 "use client"
-import Card from '@/components/question/card'
+import Card from '@/components/question/option/card'
 import { QuestionDialog } from '@/components/question/dialog'
 import Sketch from '@/components/sketch'
-import { useQuestions } from '@/service/rrhh/jobs/question/service'
+import { useQuestionOptions } from '@/service/rrhh/jobs/question-option/service'
 import { Spinner } from '@material-tailwind/react'
 import React, { useEffect, useState } from 'react'
 import Select from 'react-select'
+import { QuestionOptionDialog } from '@/components/question/option/dialog'
 
-export default function Page() {
-  const { data, isLoading, refetch } = useQuestions() 
-  const [questions, setQuestions] = useState<any>([])
+export default function Page({ params: {  id } }: any) {
+  const { data, isLoading, refetch } = useQuestionOptions(id) 
+  const [questionOptions, setQuestionOptions] = useState<any>([])
   const [refresh, setRefresh] = useState(false)
   const [open, setOpen] = useState(false)
+  const [question, setQuestion] = useState("")
 
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(4);
 
   const indexOfLast = currentPage * itemsPerPage;
   const indexOfFirst = indexOfLast - itemsPerPage;
-  const currentMembers = questions?.slice(indexOfFirst, indexOfLast);
-  const totalPages = Math.ceil(questions?.length / itemsPerPage);
+  const currentMembers = questionOptions?.slice(indexOfFirst, indexOfLast);
+  const totalPages = Math.ceil(questionOptions?.length / itemsPerPage);
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -27,14 +29,15 @@ export default function Page() {
 
   useEffect(() => {
     if(!isLoading && data){
-      setQuestions(data)
+      setQuestionOptions(data)
+      setQuestion(data[0]?.question.question)
     }
   }, [data, isLoading])
 
   useEffect(() => {
       refetch().then((e) => {
-      // Asignar la data a questions
-      setQuestions(e.data)
+      // Asignar la data a questionOptions
+      setQuestionOptions(e.data)
       })
   }, [refresh])
 
@@ -46,7 +49,7 @@ export default function Page() {
         setOpen(!open)
     }
     const buttons = [{
-    name: 'Agregar Preguntas',
+    name: 'Agregar Opciones',
     onClick: handleOpen
     }]
 
@@ -59,7 +62,8 @@ export default function Page() {
 
     const breadcrumbs = [
       { name: 'Recursos Humanos' },
-      { name: 'Preguntas', href: '/question' }
+      { name: 'Preguntas', href: '/question' },
+      { name: `${question}`, href: `/question/${id}` }
     ]
 
     const nextEmpty =
@@ -68,7 +72,7 @@ export default function Page() {
   const nextNotEmpty =
     "w-6/12 h-full text-white bg-blue-900 border-2 border-blue-900 hover:bg-white hover:text-blue-900 duration-300 hover:shadow-lg rounded-lg justify-center items-center";
 
-    if(isLoading){
+    if(isLoading || !questionOptions){
       return (
         <div className='w-full min-h-[85vh] flex justify-center items-center'>
           <Spinner onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}  className='size-7' />
@@ -77,19 +81,19 @@ export default function Page() {
     }
   return (
     <>
-    <Sketch title='Preguntas' subtitle='RRHH' breadcrumbs={breadcrumbs} buttons={buttons} handleFilterOpen={() => {}} >
+    <Sketch title='Opciones de respuesta' breadcrumbs={breadcrumbs} buttons={buttons} handleFilterOpen={() => {}} >
         <div className='w-full flex flex-col gap-5'>
         <div className="w-full flex justify-between">
                   <div className="text-black flex items-center">
-                    {questions?.length > 0 && (
+                    {questionOptions?.length > 0 && (
                       <>
-                        Mostrando las preguntas del{" "}
+                        Mostrando las opciones del{" "}
                         {currentPage === 1
                           ? 1
                           : (currentPage - 1) * itemsPerPage + 1}{" "}
                         al{" "}
-                        {Math.min(currentPage * itemsPerPage, questions?.length)}{" "}
-                        de {questions?.length} totales.
+                        {Math.min(currentPage * itemsPerPage, questionOptions?.length)}{" "}
+                        de {questionOptions?.length} totales.
                       </>
                     )}
                   </div>
@@ -105,20 +109,24 @@ export default function Page() {
                       )}
                       onChange={(e) => setItemsPerPage(e?.value as number)}
                     />
-                    <span>preguntas por página.</span>
+                    <span>opciones por página.</span>
                   </div>
                 </div>
+                <div>
+                   
+                <div className='w-full text-black font-bold text-xl'>{question}</div>
+                <div className='w-full text-black text-sm'>Pregunta</div></div>
                 <div className='w-full text-black py-4 flex flex-col gap-3'>
-                    <div className='w-full rounded-lg py-4 bg-gray-200 grid grid-cols-2 lg:grid-cols-3'>
-                        <div className='text-center'>Nombre</div>
-                        <div className='text-center'>Tipo</div>
+                    <div className='w-full rounded-lg py-4 bg-gray-200 grid grid-cols-2'>
+                        <div className='text-center'>Opciones</div>
                         <div className='text-center'>Acciones</div>
                     </div>
-                    {currentMembers?.map((question: any, key: number) => {
+                    {currentMembers?.map((option: any, key: number) => {
                       return (
                         <Card
                           key={key}
-                          question={question}
+                          question={data[0]?.question}
+                          option={option}
                           update={handleUpdate}
                         />
                       );
@@ -146,7 +154,7 @@ export default function Page() {
                 </div>
         </div>
     </Sketch>
-    {open && <QuestionDialog open={open} handler={handleOpen} update={handleUpdate} />}
+    {open && <QuestionOptionDialog question={data[0]?.question} open={open} handler={handleOpen} update={handleUpdate} />}
     </>
   )
 }
