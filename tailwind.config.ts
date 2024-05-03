@@ -16,11 +16,17 @@ const config: Config = withMT({
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
     },
-  },
-  extends:{
+    fontFamily: {
+      montserrat: ["Montserrat", "sans-serif"],
+      opensans: ["OpenSans", "sans-serif"],
+      noctura: ["Noctura", "georgia"],
+      adelia: ["Adelia", "normal"],
+      gotham: ["Gotham", "medium"],
+      glancyr: ["Glancyr", "regular"],
+    },
     colors: {
       ...colors,
-    }
+    },
   },
   plugins: [],
 });

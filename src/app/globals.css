@@ -2,6 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Montserrat";
+  src: url("../../public/fonts/Montserrat VariableFont.woff2") format("woff2");
+}
+@font-face {
+  font-family: "OpenSans";
+  src: url("../../public/fonts/OpenSans VariableFont.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Glancyr";
+  src: url("../../public/fonts/Glancyr Variable VF.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Gotham";
+  src: url("../../public/fonts/Gotham Medium.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Adelia";
+  src: url("../../public/fonts/Adelia font.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Noctura";
+  src: url("../../public/fonts/Noctura Georgia Brush.woff2") format("woff2");
+}
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;

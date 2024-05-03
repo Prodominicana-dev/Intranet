@@ -47,21 +47,39 @@ export default function DeleteButton({
               </p>
             </div>
             <div className="w-full flex flex-col gap-5">
-              <label htmlFor="confirm">Para confirmar esta acción por favor escriba: <span className="px-2 bg-gray-200 rounded-lg font-semibold py-3">{value}</span></label>
-              <input type="text" className="w-full rounded-lg p-2 ring-1 ring-gray-300" onChange={(e) => setConfirm(e.target.value)} />
+              <label htmlFor="confirm">
+                Para confirmar esta acción por favor escriba:{" "}
+                <span className="px-2 bg-gray-200 rounded-lg font-semibold py-3">
+                  {value}
+                </span>
+              </label>
+              <input
+                type="text"
+                className="w-full rounded-lg p-2 ring-1 ring-gray-300"
+                onChange={(e) => setConfirm(e.target.value)}
+              />
             </div>
             <div className="flex flex-row w-full space-x-3">
-              {value === confirm && <button
-                disabled={isLoading || value !== confirm}
-                className="w-full h-12 font-normal text-red-500 duration-300 bg-white rounded-lg hover:shadow-lg hover:text-white hover:bg-red-500 border-2 border-red-500  flex justify-center items-center"
-                onClick={() => {
-                  setIsLoading(true);
-                  funct();
-                }}
-              >
-                {isLoading ? <Spinner onPointerEnterCapture={undefined}
-                onPointerLeaveCapture={undefined} className="w-7 h-7" /> : "Eliminar"}
-              </button>}
+              {value === confirm && (
+                <button
+                  disabled={isLoading || value !== confirm}
+                  className="w-full h-12 font-normal text-red-500 duration-300 bg-white rounded-lg hover:shadow-lg hover:text-white hover:bg-red-500 border-2 border-red-500  flex justify-center items-center"
+                  onClick={() => {
+                    setIsLoading(true);
+                    funct();
+                  }}
+                >
+                  {isLoading ? (
+                    <Spinner
+                      onPointerEnterCapture={undefined}
+                      onPointerLeaveCapture={undefined}
+                      className="w-7 h-7"
+                    />
+                  ) : (
+                    "Eliminar"
+                  )}
+                </button>
+              )}
               <button
                 onClick={handleOpen}
                 className="w-full h-12 font-normal text-white duration-300 bg-red-500 border-2 border-red-500 rounded-lg hover:shadow-lg hover:bg-white hover:text-red-500"

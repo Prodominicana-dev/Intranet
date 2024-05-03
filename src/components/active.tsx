@@ -21,12 +21,16 @@ export default function ActivateButton({
   return (
     <>
       <Dialog
+        onPointerEnterCapture={undefined}
+        onPointerLeaveCapture={undefined}
         placeholder={undefined}
         open={open}
         handler={handleOpen}
         size="sm"
       >
         <DialogBody
+          onPointerEnterCapture={undefined}
+          onPointerLeaveCapture={undefined}
           style={monserratStyle.style}
           placeholder={undefined}
           className="font-sans text-black"
@@ -48,7 +52,15 @@ export default function ActivateButton({
                   funct();
                 }}
               >
-                {isLoading ? <Spinner className="w-7 h-7" /> : "Activar"}
+                {isLoading ? (
+                  <Spinner
+                    onPointerEnterCapture={undefined}
+                    onPointerLeaveCapture={undefined}
+                    className="w-7 h-7"
+                  />
+                ) : (
+                  "Activar"
+                )}
               </button>
               <button
                 onClick={handleOpen}

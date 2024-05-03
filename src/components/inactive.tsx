@@ -21,12 +21,16 @@ export default function DeactiveButton({
   return (
     <>
       <Dialog
+        onPointerEnterCapture={undefined}
+        onPointerLeaveCapture={undefined}
         placeholder={undefined}
         open={open}
         handler={handleOpen}
         size="sm"
       >
         <DialogBody
+          onPointerEnterCapture={undefined}
+          onPointerLeaveCapture={undefined}
           style={monserratStyle.style}
           placeholder={undefined}
           className="font-sans text-black"
@@ -48,7 +52,15 @@ export default function DeactiveButton({
                   funct();
                 }}
               >
-                {isLoading ? <Spinner className="w-7 h-7" /> : "Ocultar"}
+                {isLoading ? (
+                  <Spinner
+                    onPointerEnterCapture={undefined}
+                    onPointerLeaveCapture={undefined}
+                    className="w-7 h-7"
+                  />
+                ) : (
+                  "Ocultar"
+                )}
               </button>
               <button
                 onClick={handleOpen}
