@@ -49,10 +49,10 @@ export default function DeleteButton({
             <div className="w-full flex flex-col gap-5">
               <label htmlFor="confirm">
                 Para confirmar esta acción por favor escriba:{" "}
-                <span className="px-2 bg-gray-200 rounded-lg font-semibold py-3">
-                  {value}
-                </span>
               </label>
+              <p className="px-2 bg-gray-100 rounded-lg text-center font-semibold py-3">
+                {value}
+              </p>
               <input
                 type="text"
                 className="w-full rounded-lg p-2 ring-1 ring-gray-300"
