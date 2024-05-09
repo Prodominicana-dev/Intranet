@@ -59,6 +59,24 @@ export default function Sidebar() {
               Preguntas y Respuestas
             </Link>
           </MenuItem>
+          <MenuItem
+            placeholder={undefined}
+            onPointerEnterCapture={undefined}
+            onPointerLeaveCapture={undefined}
+          >
+            <Link href="/vacancy/category" className="text-lg">
+             categoría
+            </Link>
+          </MenuItem>
+          <MenuItem
+            placeholder={undefined}
+            onPointerEnterCapture={undefined}
+            onPointerLeaveCapture={undefined}
+          >
+            <Link href="/vacancy/degree" className="text-lg">
+             Grados
+            </Link>
+          </MenuItem>
           <hr className="my-3" />
         </MenuList>
       </Menu>
