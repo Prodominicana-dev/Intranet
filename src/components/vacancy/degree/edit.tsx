@@ -9,7 +9,6 @@ import {
   Textarea,
 } from "@material-tailwind/react";
 import {
-  createDegree,
   editDegree,
 } from "@/service/rrhh/jobs/vacancy/degree/service";
 
@@ -26,13 +25,11 @@ export function EditVacancyDegreeDialog({
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
-//   const [description, setDescription] = useState("");
   const [warning, setWarning] = useState(false);
 
   useEffect(() => {
     if (degree) {
         setName(degree.name);
-    //   setDescription(degree.description);
     }
   }, [degree]);
 
@@ -46,7 +43,6 @@ export function EditVacancyDegreeDialog({
 
     const data = {
         name,
-    //   description,
     };
     await editDegree(degree.id, data, handler, update);
     setIsLoading(false);
@@ -95,23 +91,6 @@ export function EditVacancyDegreeDialog({
                 EL nombre es obligatorio.
               </label>
             )}
-            {/* <div className="w-full flex flex-col gap-1">
-              <label
-                htmlFor="description"
-                className="text-black font-bold font-montserrat"
-              >
-                Descripción
-              </label>
-              <Textarea
-                onChange={(e) => setDescription(e.target.value)}
-                onPointerEnterCapture={undefined}
-                onPointerLeaveCapture={undefined}
-                size="md"
-                value={description}
-                placeholder="Descripción de la categoría"
-                className="text-black"
-              />
-            </div> */}
           </form>
         </DialogBody>
         <DialogFooter

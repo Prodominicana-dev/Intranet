@@ -6,7 +6,6 @@ import {
   DialogBody,
   DialogFooter,
   Spinner,
-  Textarea,
 } from "@material-tailwind/react";
 import { createDegree } from "@/service/rrhh/jobs/vacancy/degree/service";
 
@@ -68,7 +67,7 @@ export function VacancyCategoryDialog({
           <form className="w-full flex flex-col gap-5" action={handleSubmit}>
             <div className="w-full flex flex-col gap-1">
               <label htmlFor="name" className="text-black font-2xl font-bold">
-                Titulo <span className="text-red-600">*</span>
+                Grado <span className="text-red-600">*</span>
               </label>
               <input
                 type="text"
@@ -80,25 +79,10 @@ export function VacancyCategoryDialog({
             </div>
             {warning && name === "" && (
               <label htmlFor="name" className="text-red-600 font-xs">
-                EL nombre del Titulo es obligatorio.
+                EL nombre del Grado es obligatorio.
               </label>
             )}
-            {/* <div className="w-full flex flex-col gap-1">
-              <label
-                htmlFor="description"
-                className="text-black font-bold font-montserrat"
-              >
-                Descripción
-              </label>
-              <Textarea
-                onChange={(e) => setDescription(e.target.value)}
-                onPointerEnterCapture={undefined}
-                onPointerLeaveCapture={undefined}
-                size="md"
-                placeholder="Descripción de la categoría"
-                className="text-black"
-              />
-            </div> */}
+          
           </form>
         </DialogBody>
         <DialogFooter

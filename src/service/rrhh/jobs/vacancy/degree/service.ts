@@ -22,7 +22,7 @@ export async function createDegree(
     const url = `${process.env.NEXT_PUBLIC_API_URL}/degree/`;
     const response = await axios.post(url, data);
     if (response.status === 201) {
-      toast.success("Titulo creada correctamente", {
+      toast.success("Grado creado correctamente", {
         duration: 4000,
         position: "top-center",
       });
@@ -30,7 +30,7 @@ export async function createDegree(
       update();
     }
   } catch (e) {
-    toast.error("Error al crear el Titulo", {
+    toast.error("Error al crear el Grado", {
       duration: 4000,
       position: "top-center",
     });
@@ -47,7 +47,7 @@ export async function editDegree(
     const url = `${process.env.NEXT_PUBLIC_API_URL}/degree/${id}`;
     const response = await axios.patch(url, data);
     if (response.status === 200) {
-      toast.success("Ttitulo actualizada correctamente", {
+      toast.success("Grado actualizado correctamente", {
         duration: 4000,
         position: "top-center",
       });
@@ -55,7 +55,7 @@ export async function editDegree(
       update();
     }
   } catch (error) {
-    toast.error("Error al actualizar la Titulo", {
+    toast.error("Error al actualizar el Grado", {
       duration: 4000,
       position: "top-center",
     });
@@ -72,7 +72,7 @@ export async function deleteDegree(
     const url = `${process.env.NEXT_PUBLIC_API_URL}/degree/${id}`;
     const response = await axios.delete(url);
     if (response.status === 200) {
-      toast.success("Titulo eliminado correctamente", {
+      toast.success("Grado eliminado correctamente", {
         duration: 4000,
         position: "top-center",
       });
@@ -80,7 +80,7 @@ export async function deleteDegree(
       update();
     }
   } catch (error) {
-    toast.error("Error al eliminar este Titulo", {
+    toast.error("Error al eliminar este Grado", {
       duration: 4000,
       position: "top-center",
     });

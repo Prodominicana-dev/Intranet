@@ -1,22 +1,10 @@
 import {
-    EyeIcon,
-    EyeSlashIcon,
-    ListBulletIcon,
     PencilSquareIcon,
     TrashIcon,
   } from "@heroicons/react/24/solid";
   import React, { useState } from "react";
-  
-  import { useUser } from "@auth0/nextjs-auth0/client";
-  import DeactiveButton from "../../inactive";
-  import ActivateButton from "../../active";
   import DeleteButton from "../../delete";
-  
-  import Image from "next/image";
-  
-  import { deleteQuestion } from "@/service/rrhh/jobs/question/service";
   import { Tooltip } from "@material-tailwind/react";
-  import Link from "next/link";
   import { EditVacancyDegreeDialog } from "./edit";
   import { deleteDegree } from "@/service/rrhh/jobs/vacancy/degree/service";
   
@@ -27,9 +15,8 @@ import {
     degree: any;
     update: () => void;
   }) {
-    const { user, isLoading } = useUser();
+
     const [editOpen, setEditOpen] = useState(false);
-  
     const [deleted, setDelete] = useState(false);
   
     const handleEditOpen = () => {
