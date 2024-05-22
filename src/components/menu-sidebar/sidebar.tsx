@@ -65,7 +65,7 @@ export default function Sidebar() {
             onPointerLeaveCapture={undefined}
           >
             <Link href="/vacancy/category" className="text-lg">
-             categoría
+             Categoría
             </Link>
           </MenuItem>
           <MenuItem
@@ -75,6 +75,15 @@ export default function Sidebar() {
           >
             <Link href="/vacancy/degree" className="text-lg">
              Grados
+            </Link>
+          </MenuItem>
+          <MenuItem
+            placeholder={undefined}
+            onPointerEnterCapture={undefined}
+            onPointerLeaveCapture={undefined}
+          >
+            <Link href="/vacancy/carriers" className="text-lg">
+             Carreras
             </Link>
           </MenuItem>
           <hr className="my-3" />

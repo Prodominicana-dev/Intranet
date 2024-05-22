@@ -46,7 +46,6 @@ export function VacancyCategoryDialog({
       setWarning(true);
       return;
     }
-
     const formData = new FormData();
     formData.append("name", name.trim());
     formData.append("icon", file as File);
