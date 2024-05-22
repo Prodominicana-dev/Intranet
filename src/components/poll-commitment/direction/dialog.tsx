@@ -6,11 +6,10 @@ import {
   DialogBody,
   DialogFooter,
   Spinner,
-  Textarea,
 } from "@material-tailwind/react";
-import { createCarriers} from "@/service/rrhh/jobs/vacancy/carriers/service";
+import { createDirection } from "@/service/rrhh/poll-commitment/direction/service";
 
-export function VacancyCategoryDialog({
+export function PollDirectionDialog({
   open,
   handler,
   update,
@@ -21,7 +20,6 @@ export function VacancyCategoryDialog({
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
   const [warning, setWarning] = useState(false);
 
   const handleSubmit = async () => {
@@ -33,10 +31,9 @@ export function VacancyCategoryDialog({
     }
 
     const data = {
-      name,
-      description,
+      name
     };
-    await createCarriers(data, handler, update);
+    await createDirection(data, handler, update);
     setIsLoading(false);
   };
 
@@ -56,7 +53,7 @@ export function VacancyCategoryDialog({
           placeholder={undefined}
           className="font-semibold flex flex-col items-start gap-1 font-montserrat"
         >
-          Agregar categoría
+          Agregar Dirección 
         </DialogHeader>
 
         <DialogBody
@@ -68,7 +65,7 @@ export function VacancyCategoryDialog({
           <form className="w-full flex flex-col gap-5" action={handleSubmit}>
             <div className="w-full flex flex-col gap-1">
               <label htmlFor="name" className="text-black font-2xl font-bold">
-                Nombre <span className="text-red-600">*</span>
+              Dirección <span className="text-red-600">*</span>
               </label>
               <input
                 type="text"
@@ -80,25 +77,10 @@ export function VacancyCategoryDialog({
             </div>
             {warning && name === "" && (
               <label htmlFor="name" className="text-red-600 font-xs">
-                EL nombre es obligatorio.
+                La Dirección es obligatoria.
               </label>
             )}
-            <div className="w-full flex flex-col gap-1">
-              <label
-                htmlFor="description"
-                className="text-black font-bold font-montserrat"
-              >
-                Descripción
-              </label>
-              <Textarea
-                onChange={(e) => setDescription(e.target.value)}
-                onPointerEnterCapture={undefined}
-                onPointerLeaveCapture={undefined}
-                size="md"
-                placeholder="Descripción de la categoría"
-                className="text-black"
-              />
-            </div>
+       
           </form>
         </DialogBody>
         <DialogFooter
@@ -126,3 +108,4 @@ export function VacancyCategoryDialog({
     </>
   );
 }
+

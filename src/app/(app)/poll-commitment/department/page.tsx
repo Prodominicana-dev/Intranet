@@ -1,14 +1,16 @@
 "use client";
-import Card from "@/components/question/card";
+
 import { QuestionDialog } from "@/components/question/dialog";
 import Sketch from "@/components/sketch";
-import { useQuestions } from "@/service/rrhh/jobs/question/service";
+import Card from "@/components/poll-commitment/department/card";
+import { PollDepartmentDialog } from "@/components/poll-commitment/department/dialog";
+import { usePollDepartment} from "@/service/rrhh/poll-commitment/department/service";
 import { Spinner } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 
 export default function Page() {
-  const { data, isLoading, refetch } = useQuestions();
+  const { data, isLoading, refetch } = usePollDepartment();
   const [questions, setQuestions] = useState<any>([]);
   const [refresh, setRefresh] = useState(false);
   const [open, setOpen] = useState(false);
@@ -47,7 +49,7 @@ export default function Page() {
   };
   const buttons = [
     {
-      name: "Agregar Preguntas",
+      name: "Agregar Departamento",
       onClick: handleOpen,
     },
   ];
@@ -61,7 +63,8 @@ export default function Page() {
 
   const breadcrumbs = [
     { name: "Recursos Humanos" },
-    { name: "Preguntas", href: "/question" },
+    { name: "Encuesta Compromiso", href: "/encuesta" },
+    { name: "Departamento", href: "/departamento" },
   ];
 
   const nextEmpty =
@@ -84,7 +87,7 @@ export default function Page() {
   return (
     <>
       <Sketch
-        title="Preguntas"
+        title=" Departamento de la encuesta"
         subtitle="RRHH"
         breadcrumbs={breadcrumbs}
         buttons={buttons}
@@ -95,7 +98,7 @@ export default function Page() {
             <div className="text-black flex items-center">
               {questions?.length > 0 && (
                 <>
-                  Mostrando las preguntas del{" "}
+                  Mostrando las departamento del{" "}
                   {currentPage === 1 ? 1 : (currentPage - 1) * itemsPerPage + 1}{" "}
                   al {Math.min(currentPage * itemsPerPage, questions?.length)}{" "}
                   de {questions?.length} totales.
@@ -114,20 +117,17 @@ export default function Page() {
                 )}
                 onChange={(e) => setItemsPerPage(e?.value as number)}
               />
-              <span>preguntas por página.</span>
+              <span>Departamento por página.</span>
             </div>
           </div>
           <div className="w-full text-black py-4 flex flex-col gap-3">
-            <div className="w-full rounded-lg py-4 bg-gray-200 grid grid-cols-2 lg:grid-cols-3">
-              <div className="text-center">Nombre</div>
-              <div className="text-center">Tipo</div>
+            <div className="w-full rounded-lg py-4 bg-gray-200 grid grid-cols-2">
+              <div className="text-center">Departamento</div>
               <div className="text-center">Acciones</div>
             </div>
-            {currentMembers?.map((question: any, key: number) => {
-               console.log('klk quetion', question);
-               
+            {currentMembers?.map((department: any, key: number) => {
               return (
-                <Card key={key} question={question} update={handleUpdate} />
+                <Card key={key} department={department} update={handleUpdate} />
               );
             })}
             <div className="flex flex-row space-x-4 w-full h-12">
@@ -152,7 +152,7 @@ export default function Page() {
         </div>
       </Sketch>
       {open && (
-        <QuestionDialog
+        <PollDepartmentDialog
           open={open}
           handler={handleOpen}
           update={handleUpdate}

@@ -6,11 +6,11 @@ import {
   DialogBody,
   DialogFooter,
   Spinner,
-  Textarea,
 } from "@material-tailwind/react";
-import { createCarriers} from "@/service/rrhh/jobs/vacancy/carriers/service";
+import { createDepartment } from "@/service/rrhh/poll-commitment/department/service";
+import Select from "react-select";
 
-export function VacancyCategoryDialog({
+export function PollDepartmentDialog({
   open,
   handler,
   update,
@@ -21,8 +21,15 @@ export function VacancyCategoryDialog({
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+  const [type, setType] = useState("");
+  const [directions, setDirections] = useState("");
   const [warning, setWarning] = useState(false);
+
+  const types = [
+    { value: "1", label: "Consultoría Jurídica" },
+    { value: "2", label: "Dirección Administrativa y Financiera" },
+  ];
+
 
   const handleSubmit = async () => {
     setIsLoading(true);
@@ -34,9 +41,9 @@ export function VacancyCategoryDialog({
 
     const data = {
       name,
-      description,
+      directions
     };
-    await createCarriers(data, handler, update);
+    await createDepartment(data, handler, update);
     setIsLoading(false);
   };
 
@@ -56,7 +63,7 @@ export function VacancyCategoryDialog({
           placeholder={undefined}
           className="font-semibold flex flex-col items-start gap-1 font-montserrat"
         >
-          Agregar categoría
+          Agregar departamento 
         </DialogHeader>
 
         <DialogBody
@@ -68,7 +75,7 @@ export function VacancyCategoryDialog({
           <form className="w-full flex flex-col gap-5" action={handleSubmit}>
             <div className="w-full flex flex-col gap-1">
               <label htmlFor="name" className="text-black font-2xl font-bold">
-                Nombre <span className="text-red-600">*</span>
+              Departamento <span className="text-red-600">*</span>
               </label>
               <input
                 type="text"
@@ -80,23 +87,28 @@ export function VacancyCategoryDialog({
             </div>
             {warning && name === "" && (
               <label htmlFor="name" className="text-red-600 font-xs">
-                EL nombre es obligatorio.
+                El Departamento es obligatoria.
               </label>
             )}
-            <div className="w-full flex flex-col gap-1">
-              <label
-                htmlFor="description"
-                className="text-black font-bold font-montserrat"
-              >
-                Descripción
+
+    <div className="w-full flex flex-col gap-1">
+              <label htmlFor="type" className="text-black font-2xl font-bold">
+               Dirección  <span className="text-red-600">*</span>
               </label>
-              <Textarea
-                onChange={(e) => setDescription(e.target.value)}
-                onPointerEnterCapture={undefined}
-                onPointerLeaveCapture={undefined}
-                size="md"
-                placeholder="Descripción de la categoría"
-                className="text-black"
+              <Select
+                menuPosition="fixed"
+                id="type"
+                options={types}
+                onChange={(e: any) => setType(e.value)}
+                theme={(theme) => ({
+                  ...theme,
+                  borderRadius: 8,
+                  colors: {
+                    ...theme.colors,
+                    primary: "black",
+                  },
+                })}
+                placeholder="Selecciona un tipo de pregunta"
               />
             </div>
           </form>
@@ -126,3 +138,4 @@ export function VacancyCategoryDialog({
     </>
   );
 }
+
