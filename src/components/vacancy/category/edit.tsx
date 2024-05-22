@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Dialog,
   DialogHeader,
@@ -12,6 +12,12 @@ import {
   createCategory,
   editCategory,
 } from "@/service/rrhh/jobs/vacancy/category/service";
+import Image from "next/image";
+import {
+  ArrowDownTrayIcon,
+  PencilIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
 
 export function EditVacancyCategoryDialog({
   category,
@@ -26,15 +32,17 @@ export function EditVacancyCategoryDialog({
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+  const [file, setFile] = useState<File | null>(null);
   const [warning, setWarning] = useState(false);
+  const inputRef = useRef<HTMLInputElement>({} as HTMLInputElement);
 
-  useEffect(() => {
-    if (category) {
-      setName(category.name);
-      setDescription(category.description);
-    }
-  }, [category]);
+  const handleClick = () => {
+    inputRef.current.click();
+  };
+
+  const handleDeleteFile = () => {
+    setFile(null);
+  };
 
   const handleSubmit = async () => {
     setIsLoading(true);
@@ -43,14 +51,21 @@ export function EditVacancyCategoryDialog({
       setWarning(true);
       return;
     }
-
-    const data = {
-      name,
-      description,
-    };
-    await editCategory(category.id, data, handler, update);
+    if (isLoading) return;
+    const formData = new FormData();
+    formData.append("name", name.trim());
+    if (file) {
+      formData.append("icon", file as File);
+    }
+    await editCategory(category.id, formData, handler, update);
     setIsLoading(false);
   };
+
+  useEffect(() => {
+    if (category) {
+      setName(category.name);
+    }
+  }, [category]);
 
   return (
     <>
@@ -92,7 +107,7 @@ export function EditVacancyCategoryDialog({
             </div>
             {warning && name === "" && (
               <label htmlFor="name" className="text-red-600 font-xs">
-                EL nombre es obligatorio.
+                El nombre es obligatorio.
               </label>
             )}
             <div className="w-full flex flex-col gap-1">
@@ -100,16 +115,69 @@ export function EditVacancyCategoryDialog({
                 htmlFor="description"
                 className="text-black font-bold font-montserrat"
               >
-                Descripción
+                Ícono
               </label>
-              <Textarea
-                onChange={(e) => setDescription(e.target.value)}
-                onPointerEnterCapture={undefined}
-                onPointerLeaveCapture={undefined}
-                size="md"
-                value={description}
-                placeholder="Descripción de la categoría"
-                className="text-black"
+              {file && (
+                <div className="size-36 rounded-full bg-gray-50 p-1 relative">
+                  <Image
+                    src={URL.createObjectURL(file as Blob)}
+                    alt="preview"
+                    width={100}
+                    height={100}
+                    className="size-20 bg-gray-50 p-1"
+                  />
+                  <button
+                    onClick={handleDeleteFile}
+                    className="size-8 rounded-full bg-red-600 absolute top-1 left-1 flex justify-center items-center"
+                  >
+                    <XMarkIcon className="size-5 text-white" />
+                  </button>
+                  <button
+                    onClick={handleClick}
+                    className="size-8 rounded-full bg-blue-900 absolute bottom-1 right-1 flex justify-center items-center"
+                  >
+                    <PencilIcon className="size-5 text-white" />
+                  </button>
+                </div>
+              )}
+              {!file && category.icon && (
+                <div className="size-36 rounded-full bg-gray-50 p-1 relative flex justify-center items-center">
+                  <Image
+                    src={`${process.env.NEXT_PUBLIC_API_URL}/category/cat/svg/${category.icon}`}
+                    alt="preview"
+                    width={100}
+                    height={100}
+                    className="size-20 bg-gray-50 p-1"
+                  />
+                  <div
+                    onClick={handleClick}
+                    className="size-8 rounded-full bg-blue-900 absolute bottom-1 right-1 flex justify-center items-center hover:cursor-pointer "
+                  >
+                    <PencilIcon className="size-5 text-white" />
+                  </div>
+                </div>
+              )}
+              {!file && !category.icon && (
+                <div className="size-36 rounded-full bg-gray-50 p-1 relative flex justify-center items-center">
+                  <ArrowDownTrayIcon className="size-16" />
+                  <div
+                    onClick={handleClick}
+                    className="size-8 rounded-full bg-blue-900 absolute bottom-1 right-1 flex justify-center items-center hover:cursor-pointer "
+                  >
+                    <PencilIcon className="size-5 text-white" />
+                  </div>
+                </div>
+              )}
+              <input
+                type="file"
+                ref={inputRef}
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => {
+                  if (e.target.files) {
+                    setFile(e.target.files[0]);
+                  }
+                }}
               />
             </div>
           </form>

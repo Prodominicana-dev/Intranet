@@ -1,6 +1,5 @@
 "use client";
 
-import { QuestionDialog } from "@/components/question/dialog";
 import Sketch from "@/components/sketch";
 import Card from "@/components/vacancy/category/card";
 import { VacancyCategoryDialog } from "@/components/vacancy/category/dialog";

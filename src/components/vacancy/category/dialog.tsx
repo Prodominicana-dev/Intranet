@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   Dialog,
   DialogHeader,
@@ -9,6 +9,12 @@ import {
   Textarea,
 } from "@material-tailwind/react";
 import { createCategory } from "@/service/rrhh/jobs/vacancy/category/service";
+import Image from "next/image";
+import {
+  XMarkIcon,
+  PencilIcon,
+  ArrowDownTrayIcon,
+} from "@heroicons/react/24/outline";
 
 export function VacancyCategoryDialog({
   open,
@@ -21,22 +27,30 @@ export function VacancyCategoryDialog({
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+  const [file, setFile] = useState<File | null>(null);
   const [warning, setWarning] = useState(false);
+  const inputRef = useRef<HTMLInputElement>({} as HTMLInputElement);
+
+  const handleClick = () => {
+    inputRef.current.click();
+  };
+
+  const handleDeleteFile = () => {
+    setFile(null);
+  };
 
   const handleSubmit = async () => {
     setIsLoading(true);
-    if (name === "") {
+    if (name === "" || !file) {
       setIsLoading(false);
       setWarning(true);
       return;
     }
 
-    const data = {
-      name,
-      description,
-    };
-    await createCategory(data, handler, update);
+    const formData = new FormData();
+    formData.append("name", name.trim());
+    formData.append("icon", file as File);
+    await createCategory(formData, handler, update);
     setIsLoading(false);
   };
 
@@ -80,7 +94,7 @@ export function VacancyCategoryDialog({
             </div>
             {warning && name === "" && (
               <label htmlFor="name" className="text-red-600 font-xs">
-                EL nombre es obligatorio.
+                El nombre es obligatorio.
               </label>
             )}
             <div className="w-full flex flex-col gap-1">
@@ -88,15 +102,57 @@ export function VacancyCategoryDialog({
                 htmlFor="description"
                 className="text-black font-bold font-montserrat"
               >
-                Descripción
+                Ícono <span className="text-red-600">*</span>
               </label>
-              <Textarea
-                onChange={(e) => setDescription(e.target.value)}
-                onPointerEnterCapture={undefined}
-                onPointerLeaveCapture={undefined}
-                size="md"
-                placeholder="Descripción de la categoría"
-                className="text-black"
+              {file && (
+                <div className="size-36 rounded-full bg-gray-50 p-1 relative">
+                  <Image
+                    src={URL.createObjectURL(file as Blob)}
+                    alt="preview"
+                    width={100}
+                    height={100}
+                    className="size-20 bg-gray-50 p-1"
+                  />
+                  <button
+                    onClick={handleDeleteFile}
+                    className="size-8 rounded-full bg-red-600 absolute top-1 left-1 flex justify-center items-center"
+                  >
+                    <XMarkIcon className="size-5 text-white" />
+                  </button>
+                  <button
+                    onClick={handleClick}
+                    className="size-8 rounded-full bg-blue-900 absolute bottom-1 right-1 flex justify-center items-center"
+                  >
+                    <PencilIcon className="size-5 text-white" />
+                  </button>
+                </div>
+              )}
+              {!file && (
+                <div className="size-36 rounded-full bg-gray-50 p-1 relative flex justify-center items-center">
+                  <ArrowDownTrayIcon className="size-16" />
+                  <div
+                    onClick={handleClick}
+                    className="size-8 rounded-full bg-blue-900 absolute bottom-1 right-1 flex justify-center items-center hover:cursor-pointer "
+                  >
+                    <PencilIcon className="size-5 text-white" />
+                  </div>
+                </div>
+              )}
+              {warning && !file && (
+                <label htmlFor="name" className="text-red-600 font-xs">
+                  El ícono es obligatorio.
+                </label>
+              )}
+              <input
+                type="file"
+                ref={inputRef}
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => {
+                  if (e.target.files) {
+                    setFile(e.target.files[0]);
+                  }
+                }}
               />
             </div>
           </form>
