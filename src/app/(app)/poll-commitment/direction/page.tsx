@@ -14,10 +14,8 @@ export default function Page() {
   const [questions, setQuestions] = useState<any>([]);
   const [refresh, setRefresh] = useState(false);
   const [open, setOpen] = useState(false);
-
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(4);
-
   const indexOfLast = currentPage * itemsPerPage;
   const indexOfFirst = indexOfLast - itemsPerPage;
   const currentMembers = questions?.slice(indexOfFirst, indexOfLast);
@@ -126,6 +124,8 @@ export default function Page() {
               <div className="text-center">Acciones</div>
             </div>
             {currentMembers?.map((direction: any, key: number) => {
+              console.log('klk direct',direction);
+              
               return (
                 <Card key={key} direction={direction} update={handleUpdate} />
               );

@@ -10,7 +10,8 @@ import {
 import {
   editDepartment,
 } from "@/service/rrhh/poll-commitment/department/service";
-
+import { usePollDirection } from "@/service/rrhh/poll-commitment/direction/service";
+import Select from "react-select";
 export function EditPollDepartmentDialog({
   department,
   open,
@@ -24,14 +25,33 @@ export function EditPollDepartmentDialog({
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
-  const [warning, setWarning] = useState(false);
+  const [directionsId, setDirectionsId] = useState("");
 
+  const { data:datadirection } = usePollDirection();
+  const [warning, setWarning] = useState(false);
+ 
+  console.log('depart', department);
+
+  const options = datadirection?.map((direction: any) => ({
+    value: direction.id,
+    label: direction.name,
+  }));
+
+  console.log('depart', department);
+  
   useEffect(() => {
     if (department) {
       setName(department.name);
     
     }
   }, [department]);
+  useEffect(() => {
+    if (department) {
+      setDirectionsId(department.directionsId);
+    
+    }
+  }, [department]);
+
 
   const handleSubmit = async () => {
     setIsLoading(true);
@@ -42,7 +62,8 @@ export function EditPollDepartmentDialog({
     }
 
     const data = {
-      name
+      name,
+      directionsId
     };
     await editDepartment(department.id, data, handler, update);
     setIsLoading(false);
@@ -64,7 +85,7 @@ export function EditPollDepartmentDialog({
           placeholder={undefined}
           className="font-semibold flex flex-col items-start gap-1 font-montserrat"
         >
-          Editar Categoria de la encuesta
+          Editar  Departamento 
         </DialogHeader>
 
         <DialogBody
@@ -76,7 +97,7 @@ export function EditPollDepartmentDialog({
           <form className="w-full flex flex-col gap-5" action={handleSubmit}>
             <div className="w-full flex flex-col gap-1">
               <label htmlFor="name" className="text-black font-2xl font-bold">
-              departamento de La Encuesta <span className="text-red-600">*</span>
+              Departamento  <span className="text-red-600">*</span>
               </label>
               <input
                 type="text"
@@ -88,9 +109,35 @@ export function EditPollDepartmentDialog({
             </div>
             {warning && name === "" && (
               <label htmlFor="name" className="text-red-600 font-xs">
-                 El departamento de la encuentas es obligatoria.
+                 El departamento
               </label>
             )}
+            
+                
+    <div className="w-full flex flex-col gap-1">
+              <label htmlFor="type" className="text-black font-2xl font-bold">
+               Dirección  <span className="text-red-600">*</span>
+              </label>
+              <Select
+                menuPosition="fixed"
+                id="type"
+                options={options}
+                value={options?.map((a:any) => {
+                  return a.value === directionsId? a : null;
+                })}
+                onChange={(e: any) => setDirectionsId(e.value)}
+                theme={(theme) => ({
+                  ...theme,
+                  borderRadius: 8,
+                  colors: {
+                    ...theme.colors,
+                    primary: "black",
+                  },
+                })}
+             
+               
+              />
+            </div>
           
           </form>
         </DialogBody>

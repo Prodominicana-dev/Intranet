@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, {useEffect, useState } from "react";
 import {
   Dialog,
   DialogHeader,
@@ -8,6 +8,7 @@ import {
   Spinner,
 } from "@material-tailwind/react";
 import { createDepartment } from "@/service/rrhh/poll-commitment/department/service";
+import { usePollDirection} from "@/service/rrhh/poll-commitment/direction/service";
 import Select from "react-select";
 
 export function PollDepartmentDialog({
@@ -20,30 +21,38 @@ export function PollDepartmentDialog({
   update: () => void;
 }) {
   const [isLoading, setIsLoading] = useState(false);
+  const { data:datadirection } = usePollDirection();
   const [name, setName] = useState("");
   const [type, setType] = useState("");
-  const [directions, setDirections] = useState("");
+  const [directionsId, setDirectionsId] = useState("");
+
   const [warning, setWarning] = useState(false);
 
-  const types = [
-    { value: "1", label: "Consultoría Jurídica" },
-    { value: "2", label: "Dirección Administrativa y Financiera" },
-  ];
+  
+  // console.log('klk datadirection ', datadirection);
+  const options = datadirection?.map((direction: any) => ({
+    value: direction.id,
+    label: direction.name,
+  }));
 
-
+  console.log('klk options', options);
+  console.log('klk directionsId', directionsId);
+  
+ 
   const handleSubmit = async () => {
     setIsLoading(true);
-    if (name === "") {
+    if (name === ""|| directionsId === "") {
       setIsLoading(false);
       setWarning(true);
       return;
     }
 
+
     const data = {
       name,
-      directions
+      directionsId,
     };
-    await createDepartment(data, handler, update);
+    await createDepartment(data,handler, update);
     setIsLoading(false);
   };
 
@@ -90,7 +99,7 @@ export function PollDepartmentDialog({
                 El Departamento es obligatoria.
               </label>
             )}
-
+    
     <div className="w-full flex flex-col gap-1">
               <label htmlFor="type" className="text-black font-2xl font-bold">
                Dirección  <span className="text-red-600">*</span>
@@ -98,8 +107,8 @@ export function PollDepartmentDialog({
               <Select
                 menuPosition="fixed"
                 id="type"
-                options={types}
-                onChange={(e: any) => setType(e.value)}
+                options={options}
+                onChange={(e: any) => setDirectionsId(e.value)}
                 theme={(theme) => ({
                   ...theme,
                   borderRadius: 8,
