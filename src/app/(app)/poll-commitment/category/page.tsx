@@ -11,7 +11,7 @@ import Select from "react-select";
 
 export default function Page() {
   const { data, isLoading, refetch } = usePollCategory();
-  const [questions, setQuestions] = useState<any>([]);
+  const [category, setCategory] = useState<any>([]);
   const [refresh, setRefresh] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -20,8 +20,8 @@ export default function Page() {
 
   const indexOfLast = currentPage * itemsPerPage;
   const indexOfFirst = indexOfLast - itemsPerPage;
-  const currentMembers = questions?.slice(indexOfFirst, indexOfLast);
-  const totalPages = Math.ceil(questions?.length / itemsPerPage);
+  const currentCategory = category?.slice(indexOfFirst, indexOfLast);
+  const totalPages = Math.ceil(category?.length / itemsPerPage);
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -29,14 +29,14 @@ export default function Page() {
 
   useEffect(() => {
     if (!isLoading && data) {
-      setQuestions(data);
+      setCategory(data);
     }
   }, [data, isLoading]);
 
   useEffect(() => {
     refetch().then((e) => {
-      // Asignar la data a questions
-      setQuestions(e.data);
+      // Asignar la data a category
+      setCategory(e.data);
     });
   }, [refresh]);
 
@@ -96,12 +96,12 @@ export default function Page() {
         <div className="w-full flex flex-col gap-5">
           <div className="w-full flex justify-between">
             <div className="text-black flex items-center">
-              {questions?.length > 0 && (
+              {category?.length > 0 && (
                 <>
                   Mostrando las categoría del{" "}
                   {currentPage === 1 ? 1 : (currentPage - 1) * itemsPerPage + 1}{" "}
-                  al {Math.min(currentPage * itemsPerPage, questions?.length)}{" "}
-                  de {questions?.length} totales.
+                  al {Math.min(currentPage * itemsPerPage, category?.length)}{" "}
+                  de {category?.length} totales.
                 </>
               )}
             </div>
@@ -125,7 +125,7 @@ export default function Page() {
               <div className="text-center">Categoría</div>
               <div className="text-center">Acciones</div>
             </div>
-            {currentMembers?.map((category: any, key: number) => {
+            {currentCategory?.map((category: any, key: number) => {
               return (
                 <Card key={key} category={category} update={handleUpdate} />
               );

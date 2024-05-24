@@ -7,9 +7,7 @@ import {
   DialogFooter,
   Spinner,
 } from "@material-tailwind/react";
-import {
-  editCategory,
-} from "@/service/rrhh/poll-commitment/category/service";
+import { editCategory } from "@/service/rrhh/poll-commitment/category/service";
 
 export function EditPollCategoryDialog({
   category,
@@ -29,7 +27,6 @@ export function EditPollCategoryDialog({
   useEffect(() => {
     if (category) {
       setName(category.name);
-    
     }
   }, [category]);
 
@@ -42,7 +39,7 @@ export function EditPollCategoryDialog({
     }
 
     const data = {
-      name
+      name,
     };
     await editCategory(category.id, data, handler, update);
     setIsLoading(false);
@@ -76,7 +73,7 @@ export function EditPollCategoryDialog({
           <form className="w-full flex flex-col gap-5" action={handleSubmit}>
             <div className="w-full flex flex-col gap-1">
               <label htmlFor="name" className="text-black font-2xl font-bold">
-              categoría de La Encuesta <span className="text-red-600">*</span>
+                Categoría de La Encuesta <span className="text-red-600">*</span>
               </label>
               <input
                 type="text"
@@ -88,10 +85,9 @@ export function EditPollCategoryDialog({
             </div>
             {warning && name === "" && (
               <label htmlFor="name" className="text-red-600 font-xs">
-                 La categoría de la encuentas es obligatoria.
+                La Categoría de la encuentas es obligatoria.
               </label>
             )}
-          
           </form>
         </DialogBody>
         <DialogFooter

@@ -20,7 +20,6 @@ export function VacancyCategoryDialog({
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
-//   const [description, setDescription] = useState("");
   const [warning, setWarning] = useState(false);
 
   const handleSubmit = async () => {
@@ -79,7 +78,7 @@ export function VacancyCategoryDialog({
             </div>
             {warning && name === "" && (
               <label htmlFor="name" className="text-red-600 font-xs">
-                EL nombre del Grado es obligatorio.
+                EL Nombre del Grado es obligatorio.
               </label>
             )}
           

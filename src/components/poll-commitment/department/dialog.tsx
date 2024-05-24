@@ -1,5 +1,5 @@
 "use client";
-import React, {useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogHeader,
@@ -8,7 +8,7 @@ import {
   Spinner,
 } from "@material-tailwind/react";
 import { createDepartment } from "@/service/rrhh/poll-commitment/department/service";
-import { usePollDirection} from "@/service/rrhh/poll-commitment/direction/service";
+import { usePollDirection } from "@/service/rrhh/poll-commitment/direction/service";
 import Select from "react-select";
 
 export function PollDepartmentDialog({
@@ -21,38 +21,30 @@ export function PollDepartmentDialog({
   update: () => void;
 }) {
   const [isLoading, setIsLoading] = useState(false);
-  const { data:datadirection } = usePollDirection();
+  const { data: dataDirection } = usePollDirection();
   const [name, setName] = useState("");
-  const [type, setType] = useState("");
   const [directionsId, setDirectionsId] = useState("");
-
   const [warning, setWarning] = useState(false);
 
-  
-  // console.log('klk datadirection ', datadirection);
-  const options = datadirection?.map((direction: any) => ({
+
+  const options = dataDirection?.map((direction: any) => ({
     value: direction.id,
     label: direction.name,
   }));
 
-  console.log('klk options', options);
-  console.log('klk directionsId', directionsId);
-  
- 
   const handleSubmit = async () => {
     setIsLoading(true);
-    if (name === ""|| directionsId === "") {
+    if (name === "" || directionsId === "") {
       setIsLoading(false);
       setWarning(true);
       return;
     }
 
-
     const data = {
       name,
       directionsId,
     };
-    await createDepartment(data,handler, update);
+    await createDepartment(data, handler, update);
     setIsLoading(false);
   };
 
@@ -72,7 +64,7 @@ export function PollDepartmentDialog({
           placeholder={undefined}
           className="font-semibold flex flex-col items-start gap-1 font-montserrat"
         >
-          Agregar departamento 
+          Agregar Departamento
         </DialogHeader>
 
         <DialogBody
@@ -84,7 +76,7 @@ export function PollDepartmentDialog({
           <form className="w-full flex flex-col gap-5" action={handleSubmit}>
             <div className="w-full flex flex-col gap-1">
               <label htmlFor="name" className="text-black font-2xl font-bold">
-              Departamento <span className="text-red-600">*</span>
+                Departamento <span className="text-red-600">*</span>
               </label>
               <input
                 type="text"
@@ -99,10 +91,10 @@ export function PollDepartmentDialog({
                 El Departamento es obligatoria.
               </label>
             )}
-    
-    <div className="w-full flex flex-col gap-1">
+
+            <div className="w-full flex flex-col gap-1">
               <label htmlFor="type" className="text-black font-2xl font-bold">
-               Dirección  <span className="text-red-600">*</span>
+                Dirección <span className="text-red-600">*</span>
               </label>
               <Select
                 menuPosition="fixed"
@@ -117,7 +109,7 @@ export function PollDepartmentDialog({
                     primary: "black",
                   },
                 })}
-                placeholder="Selecciona un tipo de pregunta"
+                placeholder="Selecciona una Dirección "
               />
             </div>
           </form>
@@ -147,4 +139,3 @@ export function PollDepartmentDialog({
     </>
   );
 }
-

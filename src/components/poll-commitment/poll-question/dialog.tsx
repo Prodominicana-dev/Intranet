@@ -8,8 +8,11 @@ import {
   Spinner,
 } from "@material-tailwind/react";
 import { createQuestion } from "@/service/rrhh/poll-commitment/poll-question/service";
+import { usePollCategory } from "@/service/rrhh/poll-commitment/category/service";
+import { usePollDirection } from "@/service/rrhh/poll-commitment/direction/service";
+import Select from "react-select";
 
-export function PollDepartmentDialog({
+export function PollQuestionDialog({
   open,
   handler,
   update,
@@ -19,8 +22,22 @@ export function PollDepartmentDialog({
   update: () => void;
 }) {
   const [isLoading, setIsLoading] = useState(false);
+  const { data: dataDirection } = usePollDirection();
+  const { data: dataCategory } = usePollCategory();
   const [name, setName] = useState("");
+  const [directionsId, setDirectionsId] = useState("");
+  const [pollquestioncategoryId, setPollQuestioncategoryId] = useState("");
   const [warning, setWarning] = useState(false);
+
+  const options = dataDirection?.map((direction: any) => ({
+    value: direction.id,
+    label: direction.name,
+  }));
+
+  const optionsCategory = dataCategory?.map((category: any) => ({
+    value: category.id,
+    label: category.name,
+  }));
 
   const handleSubmit = async () => {
     setIsLoading(true);
@@ -31,7 +48,9 @@ export function PollDepartmentDialog({
     }
 
     const data = {
-      name
+      name,
+      directionsId,
+      pollquestioncategoryId,
     };
     await createQuestion(data, handler, update);
     setIsLoading(false);
@@ -53,7 +72,7 @@ export function PollDepartmentDialog({
           placeholder={undefined}
           className="font-semibold flex flex-col items-start gap-1 font-montserrat"
         >
-          Agregar Pregunta 
+          Agregar Pregunta
         </DialogHeader>
 
         <DialogBody
@@ -65,7 +84,7 @@ export function PollDepartmentDialog({
           <form className="w-full flex flex-col gap-5" action={handleSubmit}>
             <div className="w-full flex flex-col gap-1">
               <label htmlFor="name" className="text-black font-2xl font-bold">
-              Pregunta <span className="text-red-600">*</span>
+                Pregunta <span className="text-red-600">*</span>
               </label>
               <input
                 type="text"
@@ -80,7 +99,47 @@ export function PollDepartmentDialog({
                 La Pregunta es obligatoria.
               </label>
             )}
-       
+
+            <div className="w-full flex flex-col gap-1">
+              <label htmlFor="type" className="text-black font-2xl font-bold">
+                Dirección <span className="text-red-600">*</span>
+              </label>
+              <Select
+                menuPosition="fixed"
+                id="type"
+                options={options}
+                onChange={(e: any) => setDirectionsId(e.value)}
+                theme={(theme) => ({
+                  ...theme,
+                  borderRadius: 8,
+                  colors: {
+                    ...theme.colors,
+                    primary: "black",
+                  },
+                })}
+                placeholder="Selecciona una Dirección "
+              />
+            </div>
+            <div className="w-full flex flex-col gap-1">
+              <label htmlFor="type" className="text-black font-2xl font-bold">
+                Categoría <span className="text-red-600">*</span>
+              </label>
+              <Select
+                menuPosition="fixed"
+                id="type"
+                options={optionsCategory}
+                onChange={(e: any) => setPollQuestioncategoryId(e.value)}
+                theme={(theme) => ({
+                  ...theme,
+                  borderRadius: 8,
+                  colors: {
+                    ...theme.colors,
+                    primary: "black",
+                  },
+                })}
+                placeholder="Selecciona una Categoría "
+              />
+            </div>
           </form>
         </DialogBody>
         <DialogFooter
@@ -108,4 +167,3 @@ export function PollDepartmentDialog({
     </>
   );
 }
-

@@ -7,9 +7,7 @@ import {
   DialogFooter,
   Spinner,
 } from "@material-tailwind/react";
-import {
-  editDepartment,
-} from "@/service/rrhh/poll-commitment/department/service";
+import { editDepartment } from "@/service/rrhh/poll-commitment/department/service";
 import { usePollDirection } from "@/service/rrhh/poll-commitment/direction/service";
 import Select from "react-select";
 export function EditPollDepartmentDialog({
@@ -26,32 +24,25 @@ export function EditPollDepartmentDialog({
   const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
   const [directionsId, setDirectionsId] = useState("");
-
-  const { data:datadirection } = usePollDirection();
+  const { data: datadirection } = usePollDirection();
   const [warning, setWarning] = useState(false);
- 
-  console.log('depart', department);
 
   const options = datadirection?.map((direction: any) => ({
     value: direction.id,
     label: direction.name,
   }));
 
-  console.log('depart', department);
-  
   useEffect(() => {
     if (department) {
       setName(department.name);
-    
-    }
-  }, [department]);
-  useEffect(() => {
-    if (department) {
-      setDirectionsId(department.directionsId);
-    
     }
   }, [department]);
 
+  useEffect(() => {
+    if (department) {
+      setDirectionsId(department.directionsId);
+    }
+  }, [department]);
 
   const handleSubmit = async () => {
     setIsLoading(true);
@@ -63,7 +54,7 @@ export function EditPollDepartmentDialog({
 
     const data = {
       name,
-      directionsId
+      directionsId,
     };
     await editDepartment(department.id, data, handler, update);
     setIsLoading(false);
@@ -85,7 +76,7 @@ export function EditPollDepartmentDialog({
           placeholder={undefined}
           className="font-semibold flex flex-col items-start gap-1 font-montserrat"
         >
-          Editar  Departamento 
+          Editar Departamento
         </DialogHeader>
 
         <DialogBody
@@ -97,7 +88,7 @@ export function EditPollDepartmentDialog({
           <form className="w-full flex flex-col gap-5" action={handleSubmit}>
             <div className="w-full flex flex-col gap-1">
               <label htmlFor="name" className="text-black font-2xl font-bold">
-              Departamento  <span className="text-red-600">*</span>
+                Departamento <span className="text-red-600">*</span>
               </label>
               <input
                 type="text"
@@ -109,21 +100,20 @@ export function EditPollDepartmentDialog({
             </div>
             {warning && name === "" && (
               <label htmlFor="name" className="text-red-600 font-xs">
-                 El departamento
+                El Departamento
               </label>
             )}
-            
-                
-    <div className="w-full flex flex-col gap-1">
+
+            <div className="w-full flex flex-col gap-1">
               <label htmlFor="type" className="text-black font-2xl font-bold">
-               Dirección  <span className="text-red-600">*</span>
+                Dirección <span className="text-red-600">*</span>
               </label>
               <Select
                 menuPosition="fixed"
                 id="type"
                 options={options}
-                value={options?.map((a:any) => {
-                  return a.value === directionsId? a : null;
+                value={options?.map((a: any) => {
+                  return a.value === directionsId ? a : null;
                 })}
                 onChange={(e: any) => setDirectionsId(e.value)}
                 theme={(theme) => ({
@@ -134,11 +124,8 @@ export function EditPollDepartmentDialog({
                     primary: "black",
                   },
                 })}
-             
-               
               />
             </div>
-          
           </form>
         </DialogBody>
         <DialogFooter

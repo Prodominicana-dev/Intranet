@@ -17,9 +17,7 @@ import {
     department: any;
     update: () => void;
   }) {
-    const { user, isLoading } = useUser();
     const [editOpen, setEditOpen] = useState(false);
-  
     const [deleted, setDelete] = useState(false);
   
     const handleEditOpen = () => {
@@ -70,7 +68,7 @@ import {
             open={deleted}
             value={department?.name}
             title="Eliminar Departamento"
-            message="¿Estás seguro de que deseas eliminar este departamento? Esta acción no se puede deshacer."
+            message="¿Estás seguro de que deseas eliminar este Departamento? Esta acción no se puede deshacer."
             handleOpen={handleDeleteOpen}
             funct={handleDelete}
           />

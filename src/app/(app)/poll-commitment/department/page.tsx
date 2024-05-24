@@ -11,17 +11,15 @@ import Select from "react-select";
 
 export default function Page() {
   const { data, isLoading, refetch } = usePollDepartment();
-  const [questions, setQuestions] = useState<any>([]);
+  const [department, setDepartment] = useState<any>([]);
   const [refresh, setRefresh] = useState(false);
   const [open, setOpen] = useState(false);
-
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(4);
-
   const indexOfLast = currentPage * itemsPerPage;
   const indexOfFirst = indexOfLast - itemsPerPage;
-  const currentMembers = questions?.slice(indexOfFirst, indexOfLast);
-  const totalPages = Math.ceil(questions?.length / itemsPerPage);
+  const currentDepartment = department?.slice(indexOfFirst, indexOfLast);
+  const totalPages = Math.ceil(department?.length / itemsPerPage);
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -29,14 +27,14 @@ export default function Page() {
 
   useEffect(() => {
     if (!isLoading && data) {
-      setQuestions(data);
+      setDepartment(data);
     }
   }, [data, isLoading]);
 
   useEffect(() => {
     refetch().then((e) => {
-      // Asignar la data a questions
-      setQuestions(e.data);
+      // Asignar la data a department
+      setDepartment(e.data);
     });
   }, [refresh]);
 
@@ -96,12 +94,12 @@ export default function Page() {
         <div className="w-full flex flex-col gap-5">
           <div className="w-full flex justify-between">
             <div className="text-black flex items-center">
-              {questions?.length > 0 && (
+              {department?.length > 0 && (
                 <>
                   Mostrando las departamento del{" "}
                   {currentPage === 1 ? 1 : (currentPage - 1) * itemsPerPage + 1}{" "}
-                  al {Math.min(currentPage * itemsPerPage, questions?.length)}{" "}
-                  de {questions?.length} totales.
+                  al {Math.min(currentPage * itemsPerPage, department?.length)}{" "}
+                  de {department?.length} totales.
                 </>
               )}
             </div>
@@ -125,7 +123,7 @@ export default function Page() {
               <div className="text-center">Departamento</div>
               <div className="text-center">Acciones</div>
             </div>
-            {currentMembers?.map((department: any, key: number) => {
+            {currentDepartment?.map((department: any, key: number) => {
               return (
                 <Card key={key} department={department} update={handleUpdate} />
               );

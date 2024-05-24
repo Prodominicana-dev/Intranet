@@ -3,8 +3,6 @@ import {
     TrashIcon,
   } from "@heroicons/react/24/solid";
   import React, { useState } from "react";
-  
-  import { useUser } from "@auth0/nextjs-auth0/client";
   import DeleteButton from "../../delete";
   import { Tooltip } from "@material-tailwind/react";
   import { EditPollDirectionDialog } from "./edit";
@@ -17,9 +15,7 @@ import {
     direction: any;
     update: () => void;
   }) {
-    const { user, isLoading } = useUser();
     const [editOpen, setEditOpen] = useState(false);
-  
     const [deleted, setDelete] = useState(false);
   
     const handleEditOpen = () => {
@@ -70,7 +66,7 @@ import {
             open={deleted}
             value={direction?.name}
             title="Eliminar Dirección"
-            message="¿Estás seguro de que deseas eliminar esta dirección? Esta acción no se puede deshacer."
+            message="¿Estás seguro de que deseas eliminar esta Dirección? Esta acción no se puede deshacer."
             handleOpen={handleDeleteOpen}
             funct={handleDelete}
           />

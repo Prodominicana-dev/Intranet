@@ -10,6 +10,9 @@ import {
 import {
   editQuestion,
 } from "@/service/rrhh/poll-commitment/poll-question/service";
+import { usePollDirection } from "@/service/rrhh/poll-commitment/direction/service";
+import { usePollCategory } from "@/service/rrhh/poll-commitment/category/service";
+import Select from "react-select";
 
 export function EditPollQuestionDialog({
   question,
@@ -24,11 +27,42 @@ export function EditPollQuestionDialog({
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
+  const [directionsId, setDirectionsId] = useState("");
+  const [pollquestioncategoryId, setPollQuestioncategoryId] = useState("");
+  const { data:dataCategory } = usePollCategory();
+  const { data:datadirection } = usePollDirection();
   const [warning, setWarning] = useState(false);
+
+  console.log('question data',question);
+  
+  
+  const options = datadirection?.map((direction: any) => ({
+    value: direction.id,
+    label: direction.name,
+  }));
+
+  const optionsCategory = dataCategory?.map((category: any) => ({
+    value: category.id,
+    label: category.name,
+  }));
+  
 
   useEffect(() => {
     if (question) {
       setName(question.name);
+    
+    }
+  }, [question]);
+
+  useEffect(() => {
+    if (question) {
+      setDirectionsId(question.directionsId);
+    
+    }
+  }, [question]);
+  useEffect(() => {
+    if (question) {
+      setPollQuestioncategoryId(question.pollquestioncategoryId);
     
     }
   }, [question]);
@@ -42,7 +76,9 @@ export function EditPollQuestionDialog({
     }
 
     const data = {
-      name
+      name,
+      directionsId,
+      pollquestioncategoryId
     };
     await editQuestion(question.id, data, handler, update);
     setIsLoading(false);
@@ -91,6 +127,52 @@ export function EditPollQuestionDialog({
                  la Pregunta de la encuentas es obligatoria.
               </label>
             )}
+
+<div className="w-full flex flex-col gap-1">
+              <label htmlFor="type" className="text-black font-2xl font-bold">
+               Dirección  <span className="text-red-600">*</span>
+              </label>
+              <Select
+                menuPosition="fixed"
+                id="type"
+                options={options}
+                value={options?.map((a:any) => {
+                  return a.value === directionsId? a : null;
+                })}
+                onChange={(e: any) => setDirectionsId(e.value)}
+                theme={(theme) => ({
+                  ...theme,
+                  borderRadius: 8,
+                  colors: {
+                    ...theme.colors,
+                    primary: "black",
+                  },
+                })}
+              />
+            </div>
+          
+<div className="w-full flex flex-col gap-1">
+              <label htmlFor="type" className="text-black font-2xl font-bold">
+              Categoría  <span className="text-red-600">*</span>
+              </label>
+              <Select
+                menuPosition="fixed"
+                id="type"
+                options={optionsCategory}
+                value={optionsCategory?.map((a:any) => {
+                  return a.value === pollquestioncategoryId? a : null;
+                })}
+                onChange={(e: any) => setPollQuestioncategoryId(e.value)}
+                theme={(theme) => ({
+                  ...theme,
+                  borderRadius: 8,
+                  colors: {
+                    ...theme.colors,
+                    primary: "black",
+                  },
+                })}
+              />
+            </div>
           
           </form>
         </DialogBody>

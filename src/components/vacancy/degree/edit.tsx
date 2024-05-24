@@ -64,7 +64,7 @@ export function EditVacancyDegreeDialog({
           placeholder={undefined}
           className="font-semibold flex flex-col items-start gap-1 font-montserrat"
         >
-          Editar categoría
+          Editar Categoría
         </DialogHeader>
 
         <DialogBody
@@ -88,7 +88,7 @@ export function EditVacancyDegreeDialog({
             </div>
             {warning && name === "" && (
               <label htmlFor="name" className="text-red-600 font-xs">
-                EL nombre es obligatorio.
+                EL Nombre es obligatorio.
               </label>
             )}
           </form>

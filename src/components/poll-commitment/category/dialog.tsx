@@ -31,7 +31,7 @@ export function PollCategoryDialog({
     }
 
     const data = {
-      name
+      name,
     };
     await createCategory(data, handler, update);
     setIsLoading(false);
@@ -53,7 +53,7 @@ export function PollCategoryDialog({
           placeholder={undefined}
           className="font-semibold flex flex-col items-start gap-1 font-montserrat"
         >
-          Agregar categoria 
+          Agregar Categoría
         </DialogHeader>
 
         <DialogBody
@@ -65,7 +65,7 @@ export function PollCategoryDialog({
           <form className="w-full flex flex-col gap-5" action={handleSubmit}>
             <div className="w-full flex flex-col gap-1">
               <label htmlFor="name" className="text-black font-2xl font-bold">
-              categoria <span className="text-red-600">*</span>
+                Categoría <span className="text-red-600">*</span>
               </label>
               <input
                 type="text"
@@ -77,10 +77,9 @@ export function PollCategoryDialog({
             </div>
             {warning && name === "" && (
               <label htmlFor="name" className="text-red-600 font-xs">
-                La categoria es obligatoria.
+                La Categoría es obligatoria.
               </label>
             )}
-       
           </form>
         </DialogBody>
         <DialogFooter
@@ -108,4 +107,3 @@ export function PollCategoryDialog({
     </>
   );
 }
-

@@ -1,17 +1,16 @@
 "use client";
 
-import { QuestionDialog } from "@/components/question/dialog";
 import Sketch from "@/components/sketch";
 import Card from "@/components/vacancy/carriers/card";
 import { VacancyCarriersDialog } from "@/components/vacancy/carriers/dialog";
-import { useVacancyCarriers} from "@/service/rrhh/jobs/vacancy/carriers/service";
+import { useVacancyCarriers } from "@/service/rrhh/jobs/vacancy/carriers/service";
 import { Spinner } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 
 export default function Page() {
   const { data, isLoading, refetch } = useVacancyCarriers();
-  const [questions, setQuestions] = useState<any>([]);
+  const [carriers, setCarriers] = useState<any>([]);
   const [refresh, setRefresh] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -20,8 +19,8 @@ export default function Page() {
 
   const indexOfLast = currentPage * itemsPerPage;
   const indexOfFirst = indexOfLast - itemsPerPage;
-  const currentMembers = questions?.slice(indexOfFirst, indexOfLast);
-  const totalPages = Math.ceil(questions?.length / itemsPerPage);
+  const currentCarriers = carriers?.slice(indexOfFirst, indexOfLast);
+  const totalPages = Math.ceil(carriers?.length / itemsPerPage);
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -29,14 +28,14 @@ export default function Page() {
 
   useEffect(() => {
     if (!isLoading && data) {
-      setQuestions(data);
+      setCarriers(data);
     }
   }, [data, isLoading]);
 
   useEffect(() => {
     refetch().then((e) => {
-      // Asignar la data a questions
-      setQuestions(e.data);
+      // Asignar la data a carriers
+      setCarriers(e.data);
     });
   }, [refresh]);
 
@@ -96,12 +95,12 @@ export default function Page() {
         <div className="w-full flex flex-col gap-5">
           <div className="w-full flex justify-between">
             <div className="text-black flex items-center">
-              {questions?.length > 0 && (
+              {carriers?.length > 0 && (
                 <>
                   Mostrando las Carreras del{" "}
                   {currentPage === 1 ? 1 : (currentPage - 1) * itemsPerPage + 1}{" "}
-                  al {Math.min(currentPage * itemsPerPage, questions?.length)}{" "}
-                  de {questions?.length} totales.
+                  al {Math.min(currentPage * itemsPerPage, carriers?.length)} de{" "}
+                  {carriers?.length} totales.
                 </>
               )}
             </div>
@@ -125,7 +124,7 @@ export default function Page() {
               <div className="text-center">Carrera</div>
               <div className="text-center">Acciones</div>
             </div>
-            {currentMembers?.map((carriers: any, key: number) => {
+            {currentCarriers?.map((carriers: any, key: number) => {
               return (
                 <Card key={key} carriers={carriers} update={handleUpdate} />
               );
