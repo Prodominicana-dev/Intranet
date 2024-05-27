@@ -29,8 +29,6 @@ yarn-error.log*
 .env*.local
 .env
 
-#Img y data
-cat/*
 
 # vercel
 .vercel

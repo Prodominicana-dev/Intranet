@@ -1,15 +1,17 @@
 "use client";
 
 import Sketch from "@/components/sketch";
-import Card from "@/components/vacancy/category/card";
+import Card from "@/components/vacancy/card";
 import { VacancyCategoryDialog } from "@/components/vacancy/category/dialog";
+import { VacancyDialog } from "@/components/vacancy/dialog";
 import { useVacancyCategories } from "@/service/rrhh/jobs/vacancy/category/service";
+import { useVacancy } from "@/service/rrhh/jobs/vacancy/service";
 import { Spinner } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 
 export default function Page() {
-  const { data, isLoading, refetch } = useVacancyCategories();
+  const { data, isLoading, refetch } = useVacancy();
   const [questions, setQuestions] = useState<any>([]);
   const [refresh, setRefresh] = useState(false);
   const [open, setOpen] = useState(false);
@@ -125,10 +127,8 @@ export default function Page() {
               <div className="text-center">CV enviados</div>
               <div className="text-center">Acciones</div>
             </div>
-            {currentMembers?.map((category: any, key: number) => {
-              return (
-                <Card key={key} category={category} update={handleUpdate} />
-              );
+            {currentMembers?.map((vacancy: any, key: number) => {
+              return <Card key={key} vacancy={vacancy} update={handleUpdate} />;
             })}
             <div className="flex flex-row space-x-4 w-full h-12">
               <button
@@ -152,11 +152,7 @@ export default function Page() {
         </div>
       </Sketch>
       {open && (
-        <VacancyCategoryDialog
-          open={open}
-          handler={handleOpen}
-          update={handleUpdate}
-        />
+        <VacancyDialog open={open} handler={handleOpen} update={handleUpdate} />
       )}
     </>
   );

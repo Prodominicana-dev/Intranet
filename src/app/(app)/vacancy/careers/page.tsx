@@ -2,15 +2,15 @@
 
 import { QuestionDialog } from "@/components/question/dialog";
 import Sketch from "@/components/sketch";
-import Card from "@/components/vacancy/carriers/card";
-import { VacancyCarriersDialog } from "@/components/vacancy/carriers/dialog";
-import { useVacancyCarriers} from "@/service/rrhh/jobs/vacancy/carriers/service";
+import Card from "@/components/vacancy/careers/card";
+import { VacancyCarriersDialog } from "@/components/vacancy/careers/dialog";
+import { useCareers } from "@/service/rrhh/jobs/vacancy/carriers/service";
 import { Spinner } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 
 export default function Page() {
-  const { data, isLoading, refetch } = useVacancyCarriers();
+  const { data, isLoading, refetch } = useCareers();
   const [questions, setQuestions] = useState<any>([]);
   const [refresh, setRefresh] = useState(false);
   const [open, setOpen] = useState(false);
@@ -63,8 +63,8 @@ export default function Page() {
 
   const breadcrumbs = [
     { name: "Recursos Humanos" },
-    { name: "Vacantes", href: "/Carrera" },
-    { name: "Carrera", href: "/Carrera" },
+    { name: "Vacantes", href: "/vacancy" },
+    { name: "Licenciaturas", href: "/careers" },
   ];
 
   const nextEmpty =
@@ -87,7 +87,7 @@ export default function Page() {
   return (
     <>
       <Sketch
-        title=" Carrera de Vacantes"
+        title="Licenciaturas Universitarias"
         subtitle="RRHH"
         breadcrumbs={breadcrumbs}
         buttons={buttons}
@@ -98,7 +98,7 @@ export default function Page() {
             <div className="text-black flex items-center">
               {questions?.length > 0 && (
                 <>
-                  Mostrando las Carreras del{" "}
+                  Mostrando las licenciaturas del{" "}
                   {currentPage === 1 ? 1 : (currentPage - 1) * itemsPerPage + 1}{" "}
                   al {Math.min(currentPage * itemsPerPage, questions?.length)}{" "}
                   de {questions?.length} totales.
@@ -117,7 +117,7 @@ export default function Page() {
                 )}
                 onChange={(e) => setItemsPerPage(e?.value as number)}
               />
-              <span>Carreras por página.</span>
+              <span>licenciaturas por página.</span>
             </div>
           </div>
           <div className="w-full text-black py-4 flex flex-col gap-3">

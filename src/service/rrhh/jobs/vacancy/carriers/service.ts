@@ -2,7 +2,7 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
-export function useVacancyCarriers() {
+export function useCareers() {
   return useQuery({
     queryKey: ["vacancy-carriers"],
     queryFn: async () => {
