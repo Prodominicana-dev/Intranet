@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: "Empleo",
+      name: "Intranet",
       script: "npm",
       args: "start",
       cwd: "/var/www/Intranet", // Ruta del directorio del proyecto en el servidor
