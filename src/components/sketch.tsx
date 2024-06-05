@@ -18,7 +18,7 @@ export default function Sketch({
   subtitle?: string;
   handleFilterOpen: () => void;
   children: React.ReactNode;
-  buttons: { name: string; onClick: () => void }[];
+  buttons?: { name: string; onClick: () => void }[];
   hasFilter?: boolean;
   breadcrumbs?: { name: string; href?: string }[];
 }) {

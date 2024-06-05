@@ -5,6 +5,7 @@ import {
   ListBulletIcon,
   PencilSquareIcon,
   TrashIcon,
+  UserIcon,
 } from "@heroicons/react/24/solid";
 import React, { useState } from "react";
 
@@ -51,18 +52,30 @@ export default function Card({
         <div className="line-clamp-1">{vacancy?.category?.name}</div>
         <div className="line-clamp-1">{vacancy?._count?.applications}</div>
         <div className="flex justify-center space-x-5 ">
-          <button
-            onClick={handleEditOpen}
-            className="flex items-center justify-center text-black hover:text-white hover:bg-blue-900 duration-300 bg-white rounded-lg w-14 h-14 ring-1 ring-gray-100"
-          >
-            <PencilSquareIcon className="w-7" />
-          </button>
-          <button
-            onClick={handleDeleteOpen}
-            className="flex items-center justify-center text-black hover:text-white hover:bg-red-500 duration-300 bg-white rounded-lg w-14 h-14 ring-1 ring-gray-100"
-          >
-            <TrashIcon className="w-7" />
-          </button>
+          <Tooltip content="Aplicaciones">
+            <Link
+              href={`/vacancy/${vacancy.id}`}
+              className="flex items-center justify-center text-black hover:text-white hover:bg-blue-900 duration-300 bg-white rounded-lg w-14 h-14 ring-1 ring-gray-100"
+            >
+              <UserIcon className="w-7" />
+            </Link>
+          </Tooltip>
+          <Tooltip content="Editar">
+            <button
+              onClick={handleEditOpen}
+              className="flex items-center justify-center text-black hover:text-white hover:bg-blue-900 duration-300 bg-white rounded-lg w-14 h-14 ring-1 ring-gray-100"
+            >
+              <PencilSquareIcon className="w-7" />
+            </button>
+          </Tooltip>
+          <Tooltip content="Eliminar">
+            <button
+              onClick={handleDeleteOpen}
+              className="flex items-center justify-center text-black hover:text-white hover:bg-red-500 duration-300 bg-white rounded-lg w-14 h-14 ring-1 ring-gray-100"
+            >
+              <TrashIcon className="w-7" />
+            </button>
+          </Tooltip>
         </div>
       </div>
       {editOpen && (
