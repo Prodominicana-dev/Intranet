@@ -8,7 +8,11 @@ import {
   Spinner,
 } from "@material-tailwind/react";
 import Select from "react-select";
-import { createVacancy, useDegrees } from "@/service/rrhh/jobs/vacancy/service";
+import {
+  createVacancy,
+  editVacancy,
+  useDegrees,
+} from "@/service/rrhh/jobs/vacancy/service";
 import { useCareers } from "@/service/rrhh/jobs/vacancy/carriers/service";
 import {
   Age,
@@ -550,11 +554,13 @@ export function EditVacancyDialog({
         language: languages,
       };
 
+      console.log(data);
+
       if (careersSelected !== "") {
         data.careerId = careersSelected;
       }
 
-      await createVacancy(data, handler, update);
+      await editVacancy(vacancy.id, data, handler, update);
     } else {
       goNext();
     }

@@ -17,6 +17,7 @@ import { deleteQuestion } from "@/service/rrhh/jobs/question/service";
 import { Tooltip } from "@material-tailwind/react";
 import Link from "next/link";
 import { EditVacancyDialog } from "./edit";
+import { deleteVacancy } from "@/service/rrhh/jobs/vacancy/service";
 
 export default function Card({
   vacancy,
@@ -38,11 +39,11 @@ export default function Card({
     setDelete(!deleted);
   };
 
-  //   const handleDelete = () => {
-  //     //if (user && !isLoading) {
-  //     deleteCategory(vacancy.id as string, handleDeleteOpen, update);
-  //     //}
-  //   };
+  const handleDelete = () => {
+    //if (user && !isLoading) {
+    deleteVacancy(vacancy.id as string, handleDeleteOpen, update);
+    //}
+  };
   return (
     <>
       <div className="grid items-center m-1 w-full py-4 grid-cols-3 lg:grid-cols-4 text-center bg-white rounded-lg  ring-2 ring-gray-100">
@@ -73,16 +74,16 @@ export default function Card({
         />
       )}
 
-      {/* {deleted && (
+      {deleted && (
         <DeleteButton
           open={deleted}
           value={vacancy?.title}
-          title="Eliminar Categoría"
-          message="¿Estás seguro de que deseas eliminar esta categoría? Esta acción no se puede deshacer."
+          title="Eliminar Vacante"
+          message="¿Estás seguro de que deseas eliminar esta vacante? Se eliminarán todas las aplicaciones asociadas."
           handleOpen={handleDeleteOpen}
-          funct={() => {}}
+          funct={handleDelete}
         />
-      )} */}
+      )}
     </>
   );
 }

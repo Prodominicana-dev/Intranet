@@ -47,3 +47,54 @@ export async function createVacancy(
     });
   }
 }
+
+export async function editVacancy(
+  id: string,
+  data: any,
+  handler: () => void,
+  update: () => void
+) {
+  try {
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/vacancy/${id}`;
+    const response = await axios.patch(url, data);
+    if (response.status === 200) {
+      toast.success("Vacante editada correctamente", {
+        duration: 4000,
+        position: "top-center",
+      });
+      handler();
+      update();
+    }
+    return response;
+  } catch (e) {
+    toast.error("Error al editar la vacante", {
+      duration: 4000,
+      position: "top-center",
+    });
+  }
+}
+
+export async function deleteVacancy(
+  id: string,
+  handler: () => void,
+  update: () => void
+) {
+  try {
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/vacancy/${id}`;
+    const response = await axios.delete(url);
+    if (response.status === 200) {
+      toast.success("Vacante eliminada correctamente", {
+        duration: 4000,
+        position: "top-center",
+      });
+      handler();
+      update();
+    }
+    return response;
+  } catch (e) {
+    toast.error("Error al eliminar la vacante", {
+      duration: 4000,
+      position: "top-center",
+    });
+  }
+}
