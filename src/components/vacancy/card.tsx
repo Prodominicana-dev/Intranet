@@ -52,14 +52,16 @@ export default function Card({
         <div className="line-clamp-1">{vacancy?.category?.name}</div>
         <div className="line-clamp-1">{vacancy?._count?.applications}</div>
         <div className="flex justify-center space-x-5 ">
-          <Tooltip content="Aplicaciones">
-            <Link
-              href={`/vacancy/${vacancy.id}`}
-              className="flex items-center justify-center text-black hover:text-white hover:bg-blue-900 duration-300 bg-white rounded-lg w-14 h-14 ring-1 ring-gray-100"
-            >
-              <UserIcon className="w-7" />
-            </Link>
-          </Tooltip>
+          {vacancy._count?.applications > 0 && (
+            <Tooltip content="Aplicaciones">
+              <Link
+                href={`/vacancy/${vacancy.id}`}
+                className="flex items-center justify-center text-black hover:text-white hover:bg-blue-900 duration-300 bg-white rounded-lg w-14 h-14 ring-1 ring-gray-100"
+              >
+                <UserIcon className="w-7" />
+              </Link>
+            </Tooltip>
+          )}
           <Tooltip content="Editar">
             <button
               onClick={handleEditOpen}
