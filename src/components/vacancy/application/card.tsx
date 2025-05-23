@@ -49,6 +49,7 @@ export default function Card({
     //deleteVacancy(applicant.id as string, handleDeleteOpen, update);
     //}
   };
+  console.log(applicant);
   return (
     <>
       <div className="grid items-center m-1 w-full py-4 grid-cols-3 lg:grid-cols-4 text-center bg-white rounded-lg  ring-2 ring-gray-100">
@@ -78,17 +79,19 @@ export default function Card({
           })}
         </div>
         <div className="flex justify-center space-x-5 ">
-          <Tooltip content="Descargar CV">
-            <Link
-              href={`${process.env.NEXT_PUBLIC_API_URL}/cv/${applicant.user.id}/${applicant.user.cv[0].name}`}
-              target="_blank"
-              rel="noreferrer noopener"
-              download
-              className="flex items-center justify-center text-black hover:text-white hover:bg-orange-500 duration-300 bg-white rounded-lg w-14 h-14 ring-1 ring-gray-100"
-            >
-              <DocumentTextIcon className="w-7" />
-            </Link>
-          </Tooltip>
+          {applicant?.user?.cv?.length > 0 && (
+            <Tooltip content="Descargar CV">
+              <Link
+                href={`${process.env.NEXT_PUBLIC_API_URL}/cv/${applicant.user.id}/${applicant.user.cv[0].name}`}
+                target="_blank"
+                rel="noreferrer noopener"
+                download
+                className="flex items-center justify-center text-black hover:text-white hover:bg-orange-500 duration-300 bg-white rounded-lg w-14 h-14 ring-1 ring-gray-100"
+              >
+                <DocumentTextIcon className="w-7" />
+              </Link>
+            </Tooltip>
+          )}
           <Tooltip content="Aprobar">
             <button
               disabled={applicant?.status === "approved"}
