@@ -89,12 +89,12 @@ export default function Sidebar() {
           <hr className="my-3" />
         </MenuList>
       </Menu>
-      <button className="flex flex-row w-full justify-center items-center text-lg font-semibold hover:bg-gray-200 duration-300 bg-white py-4 rounded-lg">
+      {/* <button className="flex flex-row w-full justify-center items-center text-lg font-semibold hover:bg-gray-200 duration-300 bg-white py-4 rounded-lg">
         <div className="w-4/12 flex justify-center">
           <FaAlignJustify className="size-5" />
         </div>{" "}
         <h1 className="w-full text-left">Inicio</h1>
-      </button>
+      </button> */}
     </div>
   );
 }
