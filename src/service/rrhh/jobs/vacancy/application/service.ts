@@ -60,3 +60,26 @@ export async function deniedApplication(
     });
   }
 }
+export async function SendEmail(
+  data: any,
+  update: () => void
+) {
+  // console.log("Sending email with data api:", data);
+  
+  try {
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/mail/Approved`;
+    const response = await axios.post(url, data);
+    if (response.status === 201) {
+      toast.success("Correo enviado", {
+        duration: 4000,
+        position: "top-center",
+      });
+      update();
+    }
+  } catch (e) {
+    toast.error("Error al enviar correo", {
+      duration: 4000,
+      position: "top-center",
+    });
+  }
+}

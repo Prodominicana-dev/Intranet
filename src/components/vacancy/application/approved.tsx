@@ -2,25 +2,48 @@ import { CheckBadgeIcon, EyeIcon } from "@heroicons/react/24/solid";
 import { Dialog, DialogBody, Spinner } from "@material-tailwind/react";
 import React, { useState } from "react";
 import { Montserrat } from "next/font/google";
-import { approveApplicant } from "@/service/rrhh/jobs/vacancy/application/service";
+import { approveApplicant,SendEmail } from "@/service/rrhh/jobs/vacancy/application/service";
 const monserratStyle = Montserrat({ subsets: ["latin"] });
 
 export default function ApproveButton({
   id,
+  name,
+  email,
   update,
   open,
   handleOpen,
 }: {
   id: string;
+  name?: string;
+  email?: string;
   open: boolean;
   update: () => void;
   handleOpen: () => void;
 }) {
   const [isLoading, setIsLoading] = useState(false);
+  // console.log("ID:", id);
+  // console.log('name:', name );
+  // console.log('email:', email );
+  
+  const data ={
+    UserName: name,
+    email: email,
+  }
 
-  const handleApprove = () => {
+  // console.log("Data to be sent:", data);
+  
+
+  const handleApprove  = async () => {
+    try {
+      
+      await approveApplicant(id as string, handleOpen, update);
+  
+      await SendEmail(data,update);
+    } catch (error) {
+      console.error("Error approving applicant:", error);
+    }
+
     //if (user && !isLoading) {
-    approveApplicant(id as string, handleOpen, update);
     //}
   };
   return (

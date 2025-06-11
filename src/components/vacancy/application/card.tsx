@@ -10,6 +10,7 @@ import {
   UserIcon,
   XCircleIcon,
   XMarkIcon,
+  UserCircleIcon
 } from "@heroicons/react/24/solid";
 import React, { useEffect, useState } from "react";
 
@@ -24,6 +25,7 @@ import { deleteVacancy } from "@/service/rrhh/jobs/vacancy/service";
 import { approveApplicant } from "@/service/rrhh/jobs/vacancy/application/service";
 import ApproveButton from "./approved";
 import DeniedButton from "./denied";
+import ApplicanDataButton from "./ApplicantsData";
 
 export default function Card({
   applicant,
@@ -35,6 +37,7 @@ export default function Card({
   const { user, isLoading } = useUser();
   const [approveOpen, setApproveOpen] = useState(false);
   const [deniedOpen, setDeniedOpen] = useState(false);
+  const [aplicantDtOpen, setAplicantDtOpen] = useState(false);
 
   const handleApproveOpen = () => {
     setApproveOpen(!approveOpen);
@@ -44,12 +47,10 @@ export default function Card({
     setDeniedOpen(!deniedOpen);
   };
 
-  const handleDelete = () => {
-    //if (user && !isLoading) {
-    //deleteVacancy(applicant.id as string, handleDeleteOpen, update);
-    //}
+  const handleApplicantData = () => {
+    setAplicantDtOpen(!aplicantDtOpen);
   };
-  console.log(applicant);
+  // console.log(applicant);
   return (
     <>
       <div className="grid items-center m-1 w-full py-4 grid-cols-3 lg:grid-cols-4 text-center bg-white rounded-lg  ring-2 ring-gray-100">
@@ -118,12 +119,22 @@ export default function Card({
               <XCircleIcon className="w-7" />
             </button>
           </Tooltip>
+          <Tooltip content="Perfil del aplicante">
+            <button
+              onClick={handleApplicantData}
+             className="flex items-center justify-center text-black hover:text-white hover:bg-gray-700 duration-300 bg-white rounded-lg w-14 h-14 ring-1 ring-gray-100"
+            >
+              <UserCircleIcon className="w-7" />
+            </button>
+          </Tooltip>
         </div>
       </div>
       {approveOpen && (
         <ApproveButton
           handleOpen={handleApproveOpen}
           id={applicant.id}
+          name={applicant.user.name}
+          email={applicant.user.email}
           open={approveOpen}
           update={update}
         />
@@ -138,14 +149,13 @@ export default function Card({
         />
       )}
 
-      {/* {editOpen && (
-        <EditVacancyDialog
-          applicant={applicant}
-          open={editOpen}
-          handler={handleEditOpen}
-          update={update}
+       {aplicantDtOpen && (
+        <ApplicanDataButton
+          applicantData={applicant}
+          open={aplicantDtOpen}
+          handleOpen={handleApplicantData}
         />
-      )} */}
+      )} 
 
       {/* {deleted && (
         <DeleteButton
