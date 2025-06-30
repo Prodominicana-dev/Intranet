@@ -338,7 +338,7 @@ export default function UserDataCard({ user }: UserDataCardProps) {
                 <input
                   type="text"
                   className="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
-                  value={dateTransform( user.user.workExperience[0]?.startDate)}
+                  value={dateTransform(user.user.workExperience[0]?.startDate)}
                   disabled
                 />
               </div>
@@ -349,7 +349,7 @@ export default function UserDataCard({ user }: UserDataCardProps) {
                 <input
                   type="text"
                   className="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
-                  value={dateTransform( user.user.workExperience[0]?.endDate)}
+                  value={dateTransform(user.user.workExperience[0]?.endDate)}
                   disabled
                 />
               </div>
