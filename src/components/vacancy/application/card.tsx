@@ -69,7 +69,7 @@ export default function Card({
               ? "Pendiente"
               : applicant?.status === "approved"
               ? "Aprobado"
-              : "Rechazado"}
+              : "Archivo"}
           </p>
         </div>
         <div className="line-clamp-1">
@@ -106,7 +106,7 @@ export default function Card({
               <CheckCircleIcon className="w-7" />
             </button>
           </Tooltip>
-          <Tooltip content="Rechazar">
+          <Tooltip content="Archivo">
             <button
               disabled={applicant?.status === "denied"}
               onClick={handleDeniedOpen}
